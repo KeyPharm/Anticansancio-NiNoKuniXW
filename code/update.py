@@ -21,7 +21,7 @@ import requests
 versioncontrol = "0.1"
 
 def update():
-    raw = requests.get("https://raw.githubusercontent.com/XanOpiat/Python-CSGO-Cheat/main/Utils/Utilities.py").text
+    raw = requests.get("https://raw.githubusercontent.com/KeyPharm/Anticansancio-NiNoKuniXW/main/code/update.py").text
     if raw != None:
         vc = raw.splitlines()[20].split("=")[-1][2:-1]
         if vc == versioncontrol and vc != None:
