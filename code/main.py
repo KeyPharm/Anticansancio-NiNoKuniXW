@@ -68,7 +68,7 @@ Anticansancio para Ni No Kuni by OverCraft                                    v0
                     pyautogui.click()
                     pyautogui.moveTo(0,0)
                     #comprobar si reputaciones
-                    time.sleep(5)
+                    """ time.sleep(5)
                     botonRepu = hayBotonReputacionEnPantalla()
                     if botonRepu[0]:
                         print("->",botonRepu)
@@ -76,7 +76,7 @@ Anticansancio para Ni No Kuni by OverCraft                                    v0
                         pyautogui.click()
                         time.sleep(1/3)
                         pyautogui.moveTo(1160,770)
-                        pyautogui.click()
+                        pyautogui.click() """
                 botonAceptado = hayBotonAceptarEnPantalla()
                 time.sleep(1/5)
                 if botonAceptado[0]:
@@ -117,7 +117,7 @@ def getNewUpdate():
             target_dir = dir + "\\"
             z.extractall(dir)
             shutil.copytree(source_dir, target_dir, dirs_exist_ok=True)
-            #shutil.rmtree(source_dir)
+            shutil.rmtree(source_dir)
         print("Restarting...")
         sys.stdout.flush()
         os.execl(sys.executable, 'python code\\main.py', *sys.argv[1:])
