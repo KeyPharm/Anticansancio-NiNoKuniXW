@@ -8,9 +8,9 @@ import cv2
 import numpy as np
 from detectarReputacion import hayBotonReputacionEnPantalla
 from imageFinder import printScreen,saveImageTemp
+from update import update, getNewUpdate, getVersionControl
 from detectFlecha import hayFlechaEnPantalla
 from detectAceptar import hayBotonMisionCompletadaEnPantalla,hayBotonAceptarEnPantalla
-from update import update
 
 timeBefore = 0
 pyautogui.PAUSE = 0.001
@@ -23,13 +23,25 @@ def printTiming(string=""):
     global timeBefore
     print (string + " " + str(time.time() * 1000 - timeBefore ))
 
+lastCheckVActive = 0
+lastStateVA = False
+def isVentanaActiva():
+    global lastCheckVActive, lastStateVA
+    if (time.time() * 1000) - lastCheckVActive > 2000:
+        lastCheckVActive = time.time() * 1000
+        ventana = pyautogui.getWindowsWithTitle("CrossWorlds")
+        if len(ventana) != 0:
+            if ventana[0].isActive:
+                lastStateVA = True
+                return True
+        lastStateVA = False
+    return lastStateVA
+
 def main():
     state = "flecha"
     lastSpace = 0
-    #initTiming()
-    #time.sleep(2)
-    #printTiming("Programa total exec time:")
-    hello = """ 
+    version = getVersionControl()
+    hello = f""" 
  ███▄▄▄▄    ▄█       ███▄▄▄▄    ▄██████▄          ▄█   ▄█▄ ███    █▄  ███▄▄▄▄    ▄█  
 ███▀▀▀██▄ ███       ███▀▀▀██▄ ███    ███        ███ ▄███▀ ███    ███ ███▀▀▀██▄ ███  
 ███   ███ ███▌      ███   ███ ███    ███        ███▐██▀   ███    ███ ███   ███ ███▌ 
@@ -40,12 +52,15 @@ def main():
  ▀█   █▀  █▀         ▀█   █▀   ▀██████▀         ███   ▀█▀ ████████▀   ▀█   █▀  █▀   
                                                 ▀                                   
    
-Anticansancio para Ni No Kuni by OverCraft                                    v0.1
+Anticansancio para Ni No Kuni by OverCraft                                    v{version}
 """
     print (hello)
     time.sleep(2)
     par=True
     while True:
+        if not isVentanaActiva():
+            time.sleep(1)
+            continue
         if state == "flecha":
             if par:
                 flechaEncontrada = hayFlechaEnPantalla()
@@ -60,28 +75,26 @@ Anticansancio para Ni No Kuni by OverCraft                                    v0
             else:
                 botonMisionEncontrado = hayBotonMisionCompletadaEnPantalla()
                 if botonMisionEncontrado[0]:
-                    #print("----",botonMisionEncontrado[0],"sdf",botonMisionEncontrado[1])
-                    pyautogui.moveTo(1485,1020) #botonMisionEncontrado[0][0], botonMisionEncontrado[0][1])
+                    pyautogui.moveTo(1485,1020)
                     pyautogui.click()
                     time.sleep(1/3)
                     pyautogui.moveTo(163,199)
                     pyautogui.click()
                     pyautogui.moveTo(0,0)
                     #comprobar si reputaciones
-                    """ time.sleep(5)
+                    time.sleep(5)
                     botonRepu = hayBotonReputacionEnPantalla()
                     if botonRepu[0]:
-                        print("->",botonRepu)
+                        #print("->",botonRepu)
                         pyautogui.moveTo(botonRepu[0][0]+30,botonRepu[0][1]+30) 
                         pyautogui.click()
                         time.sleep(1/3)
                         pyautogui.moveTo(1160,770)
-                        pyautogui.click() """
+                        pyautogui.click()
                 botonAceptado = hayBotonAceptarEnPantalla()
                 time.sleep(1/5)
                 if botonAceptado[0]:
-                    #print("----",botonMisionEncontrado[0],"sdf",botonMisionEncontrado[1])
-                    pyautogui.moveTo(1485,1020) #botonMisionEncontrado[0][0], botonMisionEncontrado[0][1])
+                    pyautogui.moveTo(1485,1020)
                     pyautogui.click()
                     time.sleep(1/3)
                     pyautogui.moveTo(0,0)
@@ -105,25 +118,8 @@ def elevate():
         # Re-run the program with admin rights
         ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
 
-def getNewUpdate():
-    import os, requests, zipfile, io, shutil, sys
-    from pathlib import Path
-    dir = os.getcwd()
-    r = requests.get("https://github.com/KeyPharm/Anticansancio-NiNoKuniXW/archive/refs/heads/main.zip", stream=True)
-    if r:
-        z = zipfile.ZipFile(io.BytesIO(r.content))
-        if "Anticansancio-NiNoKuniXW-main/" in z.namelist():
-            source_dir = dir + "\\" + "Anticansancio-NiNoKuniXW-main\\"
-            target_dir = dir + "\\"
-            z.extractall(dir)
-            shutil.copytree(source_dir, target_dir, dirs_exist_ok=True)
-            shutil.rmtree(source_dir)
-        print("Restarting...")
-        sys.stdout.flush()
-        os.execl(sys.executable, 'python code\\main.py', *sys.argv[1:])
-
 if __name__ == '__main__':
-    if not update():
-        getNewUpdate()
+    if not (len(sys.argv) >=2 and sys.argv[1] == "DEV"):
+        if not update():
+            getNewUpdate()
     elevate()
-#<time.sleep(5)
