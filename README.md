@@ -15,7 +15,7 @@ install_all_dependences.bat
 Enjoy!
 
 # Config
-It's only made for 1920x1080 at moment.
+It's only made for 1920x1080 at moment (fullscreen).
 
 # Donations
 If you find this script usufull, you cand support the project,
