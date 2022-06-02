@@ -9,7 +9,7 @@ import numpy as np
 from detectarReputacion import hayBotonReputacionEnPantalla
 from imageFinder import printScreen,saveImageTemp
 from update import update, getNewUpdate, getVersionControl
-from detectFlecha import hayFlechaEnPantalla
+from detectFlecha import hayFlechaEnPantalla,haySaltarEnPantalla
 from detectAceptar import hayBotonMisionCompletadaEnPantalla,hayBotonAceptarEnPantalla
 
 timeBefore = 0
@@ -40,6 +40,7 @@ def isVentanaActiva():
 def main():
     state = "flecha"
     lastSpace = 0
+    lastSaltar = 0
     version = getVersionControl()
     hello = f""" 
  ███▄▄▄▄    ▄█       ███▄▄▄▄    ▄██████▄          ▄█   ▄█▄ ███    █▄  ███▄▄▄▄    ▄█  
@@ -65,10 +66,20 @@ Anticansancio para Ni No Kuni by OverCraft                                    v{
             if par:
                 flechaEncontrada = hayFlechaEnPantalla()
                 if flechaEncontrada[0]:
-                    pyautogui.keyDown('space')
-                    time.sleep(1/30)
-                    pyautogui.keyUp('space')
-                    time.sleep(1/30)
+                    saltarEncontrado = [None,None]
+                    if (time.time() * 1000) -  lastSaltar > 400:
+                        saltarEncontrado = haySaltarEnPantalla()
+                        lastSaltar = time.time() * 1000
+                    if saltarEncontrado[0]:
+                        pyautogui.moveTo(1357,830)
+                        pyautogui.click()
+                        pyautogui.moveTo(1920/2,1080/2)
+                        time.sleep(1/10)
+                    else:
+                        pyautogui.keyDown('space')
+                        time.sleep(1/30)
+                        pyautogui.keyUp('space')
+                        time.sleep(1/30)
                     lastSpace = time.time() * 1000
                 else:
                     par=False
@@ -80,7 +91,7 @@ Anticansancio para Ni No Kuni by OverCraft                                    v{
                     time.sleep(1/3)
                     pyautogui.moveTo(163,199)
                     pyautogui.click()
-                    pyautogui.moveTo(0,0)
+                    pyautogui.moveTo(1920/2,1080/2)
                     #comprobar si reputaciones
                     time.sleep(5)
                     botonRepu = hayBotonReputacionEnPantalla()
@@ -97,7 +108,7 @@ Anticansancio para Ni No Kuni by OverCraft                                    v{
                     pyautogui.moveTo(1485,1020)
                     pyautogui.click()
                     time.sleep(1/3)
-                    pyautogui.moveTo(0,0)
+                    pyautogui.moveTo(1920/2,1080/2)
                 par=True
 
         if (time.time() * 1000 ) - lastSpace > 1000:
