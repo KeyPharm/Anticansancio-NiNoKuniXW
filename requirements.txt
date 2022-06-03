@@ -2,3 +2,4 @@ opencv-python==4.5.5.64
 mss==6.1.0
 PyAutoGUI==0.9.53
 requests==2.27.1
+pyyaml==6.0
