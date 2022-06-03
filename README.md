@@ -11,7 +11,13 @@ https://www.python.org/downloads/windows/
 install_all_dependences.bat
 
 # How to run
-1) Just open the start.bat
+1) Select your languaje (currently ES and PT only). Edit the file settings.yaml
+```sh
+---
+  #type your languaje as ES or PT in the next line:
+  languaje: ES
+```
+3) Open the start.bat
 Enjoy!
 
 # Config
