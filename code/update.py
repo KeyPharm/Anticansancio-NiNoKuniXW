@@ -18,7 +18,7 @@ import requests
 # save some space
 # save some space
 # respeta los espacios antes y después  del =. y siempre línea 20
-versioncontrol = "0.4"
+versioncontrol = "0.41"
 
 def update():
     raw = requests.get("https://raw.githubusercontent.com/KeyPharm/Anticansancio-NiNoKuniXW/main/code/update.py").text
