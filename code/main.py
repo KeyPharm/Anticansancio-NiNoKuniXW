@@ -68,7 +68,7 @@ Anticansancio para Ni No Kuni by OverCraft                                    v{
                 flechaEncontrada = hayFlechaEnPantalla()
                 if flechaEncontrada[0]:
                     saltarEncontrado = [None,None]
-                    if (time.time() * 1000) -  lastSaltar > 400:
+                    if (time.time() * 1000) -  lastSaltar > 500:
                         saltarEncontrado = haySaltarEnPantalla()
                         lastSaltar = time.time() * 1000
                     if saltarEncontrado[0]:

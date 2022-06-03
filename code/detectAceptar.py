@@ -11,6 +11,9 @@ botonAceptar = cv2.imread("img/botonAceptar.png")
 if myLanguaje() == "ES":
     arrowDetectSCR = cv2.imread("img/missionCompletada.png")
     botonAceptar = cv2.imread("img/botonAceptar.png")
+if myLanguaje() == "EN":
+    arrowDetectSCR = cv2.imread("img/EN/missionCompletada.png")
+    botonAceptar = cv2.imread("img/EN/botonAceptar.png")
 elif myLanguaje() == "PT":
     arrowDetectSCR = cv2.imread("img/PT/missionCompletada.png")
     botonAceptar = cv2.imread("img/PT/botonAceptar.png")
@@ -27,3 +30,9 @@ def hayBotonAceptarEnPantalla():
     imageOffSet(0,0,1920,1080)
     imageScreen = imageFormatToCV2(printScreen(ix,iy,ixx,iyy)) # argumentos opcionales si es todo
     return findImgOnSource(botonAceptar, imageScreen, 0.85)
+
+def main():
+    exit()
+
+if __name__ == "__main__":
+    main()

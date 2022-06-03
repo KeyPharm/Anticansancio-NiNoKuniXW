@@ -11,6 +11,8 @@ saltarD = cv2.imread("img/saltar.png")
 
 if myLanguaje() == "ES":
     saltarD = cv2.imread("img/saltar.png")
+elif myLanguaje() == "EN":
+    saltarD = cv2.imread("img/EN/saltar.png")
 elif myLanguaje() == "PT":
     saltarD = cv2.imread("img/PT/saltar.png")
 
