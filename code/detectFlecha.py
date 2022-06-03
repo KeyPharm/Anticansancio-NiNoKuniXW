@@ -3,10 +3,17 @@ import numpy as np
 import time
 import cv2
 from imageFinder import imageFormatToCV2, printScreen, saveImageTemp, findImgOnSource, searchPngOnScreen, searchPngStringOnScreen, imageOffSet 
+from languaje import myLanguaje
 
 
 arrowDetectSCR = cv2.imread("img/flecha.png")
 saltarD = cv2.imread("img/saltar.png")
+
+if myLanguaje() == "ES":
+    saltarD = cv2.imread("img/saltar.png")
+elif myLanguaje() == "PT":
+    saltarD = cv2.imread("img/PT/saltar.png")
+
 def hayFlechaEnPantalla():
     global arrowDetectSCR
     ix,iy,ixx,iyy = 934,988,987,1052
@@ -22,14 +29,7 @@ def haySaltarEnPantalla():
     return findImgOnSource(saltarD, imageScreen)
 
 def main():
-    print ("Cambia de ventana antes de 2s")
-    time.sleep(2)
-    # printTiming("total")
-
-    print (haySaltarEnPantalla())
     exit()
-
-    
 
 if __name__ == "__main__":
     main()

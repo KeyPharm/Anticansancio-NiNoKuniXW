@@ -6,6 +6,7 @@ import pyautogui
 #from cv2 import cv2
 import cv2
 import numpy as np
+from languaje import myLanguaje
 from detectarReputacion import hayBotonReputacionEnPantalla
 from imageFinder import printScreen,saveImageTemp
 from update import update, getNewUpdate, getVersionControl

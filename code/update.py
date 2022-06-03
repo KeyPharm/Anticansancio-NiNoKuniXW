@@ -18,7 +18,7 @@ import requests
 # save some space
 # save some space
 # respeta los espacios antes y después  del =. y siempre línea 20
-versioncontrol = "0.3"
+versioncontrol = "0.4"
 
 def update():
     raw = requests.get("https://raw.githubusercontent.com/KeyPharm/Anticansancio-NiNoKuniXW/main/code/update.py").text
@@ -39,6 +39,12 @@ def getNewUpdate():
             source_dir = dir + "\\" + "Anticansancio-NiNoKuniXW-main\\"
             target_dir = dir + "\\"
             z.extractall(dir)
+            try:
+                os.remove(source_dir + "\\" + "settings.yaml")
+                os.remove(source_dir + "\\" + "README.md")
+                os.remove(source_dir + "\\" + "README.md.txt")
+            except OSError:
+                pass
             shutil.copytree(source_dir, target_dir, dirs_exist_ok=True)
             shutil.rmtree(source_dir)
         print("Restarting...")
