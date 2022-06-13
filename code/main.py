@@ -12,6 +12,8 @@ from imageFinder import printScreen,saveImageTemp
 from update import update, getNewUpdate, getVersionControl
 from detectFlecha import hayFlechaEnPantalla,haySaltarEnPantalla
 from detectAceptar import hayBotonMisionCompletadaEnPantalla,hayBotonAceptarEnPantalla
+from expPerhour import expPerHourTick,getExpPerHour,disableExpPerHour
+from pintar import pintar
 
 timeBefore = 0
 pyautogui.PAUSE = 0.001
@@ -23,6 +25,12 @@ def initTiming():
 def printTiming(string=""):
     global timeBefore
     print (string + " " + str(time.time() * 1000 - timeBefore ))
+
+def mouseClick(s=0.200):
+    pyautogui.mouseDown()
+    time.sleep(s)
+    pyautogui.mouseUp()
+    return
 
 lastCheckVActive = 0
 lastStateVA = False
@@ -38,29 +46,20 @@ def isVentanaActiva():
         lastStateVA = False
     return lastStateVA
 
+
+
+
 def main():
     state = "flecha"
     lastSpace = 0
     lastSaltar = 0
-    version = getVersionControl()
-    hello = f""" 
- ███▄▄▄▄    ▄█       ███▄▄▄▄    ▄██████▄          ▄█   ▄█▄ ███    █▄  ███▄▄▄▄    ▄█  
-███▀▀▀██▄ ███       ███▀▀▀██▄ ███    ███        ███ ▄███▀ ███    ███ ███▀▀▀██▄ ███  
-███   ███ ███▌      ███   ███ ███    ███        ███▐██▀   ███    ███ ███   ███ ███▌ 
-███   ███ ███▌      ███   ███ ███    ███       ▄█████▀    ███    ███ ███   ███ ███▌ 
-███   ███ ███▌      ███   ███ ███    ███      ▀▀█████▄    ███    ███ ███   ███ ███▌ 
-███   ███ ███       ███   ███ ███    ███        ███▐██▄   ███    ███ ███   ███ ███  
-███   ███ ███       ███   ███ ███    ███        ███ ▀███▄ ███    ███ ███   ███ ███  
- ▀█   █▀  █▀         ▀█   █▀   ▀██████▀         ███   ▀█▀ ████████▀   ▀█   █▀  █▀   
-                                                ▀                                   
-   
-Anticansancio para Ni No Kuni by OverCraft                                    v{version}
-"""
-    print (hello)
+    lastTimeExp = 0
+    pintar(start = True)
     time.sleep(2)
     par=True
     while True:
         if not isVentanaActiva():
+            # disableExpPerHour()
             time.sleep(1)
             continue
         if state == "flecha":
@@ -73,7 +72,7 @@ Anticansancio para Ni No Kuni by OverCraft                                    v{
                         lastSaltar = time.time() * 1000
                     if saltarEncontrado[0]:
                         pyautogui.moveTo(1357,830)
-                        pyautogui.click()
+                        mouseClick()
                         pyautogui.moveTo(1920/2,1080/2)
                         time.sleep(1/10)
                     else:
@@ -88,10 +87,10 @@ Anticansancio para Ni No Kuni by OverCraft                                    v{
                 botonMisionEncontrado = hayBotonMisionCompletadaEnPantalla()
                 if botonMisionEncontrado[0]:
                     pyautogui.moveTo(1485,1020)
-                    pyautogui.click()
-                    time.sleep(1/3)
+                    mouseClick()
+                    time.sleep(1/2)
                     pyautogui.moveTo(163,199)
-                    pyautogui.click()
+                    mouseClick()
                     pyautogui.moveTo(1920/2,1080/2)
                     #comprobar si reputaciones
                     time.sleep(5)
@@ -99,23 +98,26 @@ Anticansancio para Ni No Kuni by OverCraft                                    v{
                     if botonRepu[0]:
                         #print("->",botonRepu)
                         pyautogui.moveTo(botonRepu[0][0]+30,botonRepu[0][1]+30) 
-                        pyautogui.click()
-                        time.sleep(1/3)
+                        mouseClick()
+                        time.sleep(1/2)
                         pyautogui.moveTo(1160,770)
-                        pyautogui.click()
+                        mouseClick()
                 botonAceptado = hayBotonAceptarEnPantalla()
                 time.sleep(1/5)
                 if botonAceptado[0]:
                     pyautogui.moveTo(1485,1020)
-                    pyautogui.click()
-                    time.sleep(1/3)
+                    mouseClick()
+                    time.sleep(1/2)
                     pyautogui.moveTo(1920/2,1080/2)
                 par=True
-
-        if (time.time() * 1000 ) - lastSpace > 1000:
+        if time.time() * 1000 - lastTimeExp > 3000:
+            lastTimeExp = time.time() * 1000
+            expPerHourTick()
+            pintar (getExpPerHour())
+        if (time.time() * 1000 ) - lastSpace > 10000:
             time.sleep(1/2)
         else:
-            time.sleep(1/30)
+            time.sleep(1/100)
 
 def elevate():
     def is_admin():
