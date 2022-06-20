@@ -112,7 +112,7 @@ def main():
                 par=True
         if time.time() * 1000 - lastTimeExp > 3000:
             lastTimeExp = time.time() * 1000
-            expPerHourTick()
+            #expPerHourTick()
             pintar (getExpPerHour())
         if (time.time() * 1000 ) - lastSpace > 10000:
             time.sleep(1/2)
